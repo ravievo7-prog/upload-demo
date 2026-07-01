@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Evo HR Mobile App | Attendance, Leave & Expense Management | EVOZARD</title>
+      <meta name="description"
+         content="Manage attendance, leave requests, expenses, and approvals directly from your mobile device. Seamlessly integrated with Odoo 18" />
+      <meta name="keywords"
+         content="odoo hr mobile app, odoo attendance app, odoo leave management, odoo expense management, employee self service, hr mobile application, odoo hrms, EVOZARD" />
+      <meta name="author" content="EVOZARD" />
+      <meta name="robots" content="index, follow" />
+      <meta property="og:title" content="Evo Hr - Mobile Application" />
+      <meta property="og:description"
+         content="Access attendance, leave requests, expenses, approvals, and employee information from a single mobile application fully integrated with Odoo." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.evozard.com" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+         rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+      <style>
+         :root {
+         --primary: #3B82F6;
+         --secondary: #2563EB;
+         --primary-dark: #1e40af;
+         --primary-light: #eff6ff;
+         --text: #334155;
+         --muted: #64748b;
+         }
+         body {
+         font-family: "Montserrat", sans-serif;
+         background-color: #3b82f608;
+         color: var(--text);
+         }
+         .cmpad {
+         padding-left: 35px;
+         padding-right: 35px;
+         }
+         .mainhead span {
+         color: #3B82F6;
+         }
+         .nav-pills .nav-link.active {
+         background-color: #3B82F6 !important;
+         color: white !important;
+         }
+         .nav-pills .nav-link {
+         color: #333;
+         }
+         .accordion-button:not(.collapsed) {
+         color: #3B82F6 !important;
+         background-color: #eff6ff !important;
+         }
+         .highlight-card:hover {
+         box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15);
+         transition: box-shadow 0.3s;
+         }
+         summary::-webkit-details-marker {
+         display: none !important;
+         }
+         summary {
+         list-style: none !important;
+         }
+         summary::marker {
+         display: none !important;
+         }
+         details[open] .accordion-icon {
+         transform: rotate(180deg);
+         }
+         /* CSS-only Tabs */
+         .tab-content .tab-pane {
+         display: none !important;
+         opacity: 0;
+         transition: opacity 0.15s linear;
+         }
+         .tab-content .tab-pane.active {
+         display: block !important;
+         opacity: 1;
+         }
+         /* When a tab is targeted, show that tab pane */
+         .tab-content #screenshot:target,
+         .tab-content #features:target,
+         .tab-content #faq:target {
+         display: block !important;
+         opacity: 1 !important;
+         }
+         /* If features or faq is targeted, hide the default screenshot tab */
+         body:has(#features:target) .tab-content #screenshot,
+         body:has(#faq:target) .tab-content #screenshot {
+         display: none !important;
+         opacity: 0 !important;
+         }
+         /* Pill active/inactive styles */
+         #pills1 .nav-link {
+         background-color: transparent !important;
+         color: #333 !important;
+         border: 2px solid #e9ecef !important;
+         }
+         #pills1 .nav-link.active {
+         background-color: #3B82F6 !important;
+         color: white !important;
+         border: 2px solid #3B82F6 !important;
+         }
+         /* When features is targeted, activate features pill and deactivate screenshot pill */
+         body:has(#features:target) #pills1 #features-tab {
+         background-color: #3B82F6 !important;
+         color: white !important;
+         border: 2px solid #3B82F6 !important;
+         }
+         body:has(#features:target) #pills1 #screenshot-tab {
+         background-color: transparent !important;
+         color: #333 !important;
+         border: 2px solid #e9ecef !important;
+         }
+         /* When faq is targeted, activate faq pill and deactivate screenshot pill */
+         body:has(#faq:target) #pills1 #faq-tab {
+         background-color: #3B82F6 !important;
+         color: white !important;
+         border: 2px solid #3B82F6 !important;
+         }
+         body:has(#faq:target) #pills1 #screenshot-tab {
+         background-color: transparent !important;
+         color: #333 !important;
+         border: 2px solid #e9ecef !important;
+         }
+      </style>
+   </head>
+   <body>
+      <!-- TOP BAR: EVOZARD LOGO + SUPPORTS + AVAILABILITY -->
+      <div class="container-fluid cmpad">
+         <div class="supports my-3 py-3"
+            style="border: 2px solid #e9ecef; padding: 0 35px; border-radius: 10px; background-color: white;">
+            <div class="row justify-content-between align-items-center">
+               <div class="col-lg-3">
+                  <div class="my-3 mx-auto mx-sm-0" style="width: 200px;">
+                     <div class="mb-1">
+                        <img src="images/evo_logo.png" alt="EVOZARD Logo"
+                           style="width: 100%; max-width: 180px; height: auto; display: block;">
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-9">
+                  <div class="row">
+                     <div
+                        class="my-3 d-flex align-items-center justify-content-center justify-content-sm-end flex-wrap gap-2">
+                        <span class="me-2"><b>Supports: </b></span>
+                        <div class="text-center"
+                           style="background-color: #3B82F6 !important; font-size: 1rem !important; color: #fff !important; font-weight: 500 !important; padding: 8px !important; margin: 0 3px !important; border-radius: 50px !important; min-width: 130px !important;">
+                           Community
+                        </div>
+                        <div class="text-center"
+                           style="background-color: #2563EB !important; font-size: 1rem !important; color: #fff !important; font-weight: 500 !important; padding: 8px !important; margin: 0 3px !important; border-radius: 50px !important; min-width: 130px !important;">
+                           Enterprise
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row" style="margin-top: 10px; display: flex; justify-content: end; float: right;">
+                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-2">
+                        <span class="me-2"><b>Availability: </b></span>
+                        <div class="d-flex align-items-center justify-content-center gap-2 text-center"
+                           style="border: 2px solid #ebebeb; font-size: 1rem !important; color: #333 !important; font-weight: 500 !important; padding: 8px !important; margin: 0 3px !important; border-radius: 20px !important; min-width: 140px !important;">
+                           <i class="fa fa-check-circle" style="color: #3B82F6; margin-right: 5px;"></i> Odoo.sh
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center gap-2 text-center"
+                           style="border: 2px solid #ebebeb; font-size: 1rem !important; color: #333 !important; font-weight: 500 !important; padding: 8px !important; margin: 0 3px !important; border-radius: 20px !important; min-width: 140px !important;">
+                           <i class="fa fa-check-circle" style="color: #3B82F6; margin-right: 5px;"></i> On Premise
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center gap-2 text-center"
+                           style="border: 2px solid #ebebeb; font-size: 1rem !important; color: #333 !important; font-weight: 500 !important; padding: 8px !important; margin: 0 3px !important; border-radius: 20px !important; min-width: 140px !important;">
+                           <i class="fa fa-check-circle" style="color: #3B82F6; margin-right: 5px;"></i> Self-Hosted
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- HERO SECTION -->
+      <div class="container-fluid cmpad text-center py-5 py-md-3">
+         <div class="row">
+            <div class="col-md-12">
+               <h3 class="mainhead" style="font-size: 2.3rem; padding-top: 1rem; font-weight: 700; color: black;">
+                  EVO HR Mobile App
+               </h3>
+               <p class="para mb-3" style="font-size: 20px; color: #6b7280;">Odoo 18 &bull; Evo HR Mobile Application</p>
+               <p style="font-size: 1rem; max-width: 700px; margin: 0 auto 20px; color: #6b7280;">Transform your HR operations with a modern mobile experience. Empower employees and managers with instant access to HR services, approvals, attendance tracking, and workforce management directly from their mobile devices.</p>
+               <!-- Version badges -->
+               <div class="d-flex justify-content-center gap-2 flex-wrap mb-4">
+                  <span
+                     style="background-color: #eff6ff; color: #1e40af; font-size: 0.82em; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid #3B82F6;">Odoo
+                  v18</span>
+                  <span
+                     style="background-color: #eff6ff; color: #1e40af; font-size: 0.82em; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid #3B82F6;">Android</span>
+               </div>
+               <!-- CTA Buttons -->
+               <div class="text-center" style="margin-top: 20px;">
+                  <a href="mailto:evozard@gmail.com" class="cta-link-btn"
+                     style="padding: 15px 25px; border-radius: 50px; font-size: 16px; font-weight: 600; text-decoration: none; color: white; display: inline-block; background-color: #3B82F6; min-width: 180px; text-align: center; margin: 5px;">
+                  <i class="fa fa-envelope" style="margin-right: 8px;"></i> Contact Support
+                  </a>
+                  <a href="mailto:evozard@gmail.com" class="cta-link-btn"
+                     style="padding: 15px 25px; border-radius: 50px; font-size: 16px; font-weight: 600; text-decoration: none; color: #3B82F6; display: inline-block; background-color: transparent; border: 2px solid #3B82F6; min-width: 180px; text-align: center; margin: 5px;">
+                  <i class="fa fa-wrench" style="margin-right: 8px;"></i> Request Customization
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- BANNER -->
+      <div class="container-fluid cmpad py-2">
+         <div class="d-flex align-items-center flex-wrap"
+            style="background-color: #3B82F6; color: white; border-radius: 10px; padding: 20px 30px;">
+            <div style="font-size: 2.2em; flex-shrink: 0; margin-right: 15px; color: white;"><i class="fa fa-rocket"></i></div>
+            <div style="flex-grow: 1;">
+               <h3 style="margin: 0 0 4px 0; font-size: 1.1em; color: white;">Complete Odoo HR Experience on Mobile</h3>
+               <p style="margin: 0; font-size: 0.9em; opacity: 0.9; color: white;">Access employee profiles, attendance, leaves, expenses, approvals, and HR records from a single mobile application. The EVO HR Mobile App delivers a seamless HR experience for employees and managers anytime, anywhere.</p>
+            </div>
+         </div>
+      </div>
+      <!-- KEY HIGHLIGHTS -->
+      <div class="container-fluid cmpad py-2 py-md-5">
+         <div class="highlights-section">
+            <h2 class="mainhead text-center" style="font-size: 2rem; font-weight: 700; color: black;">Key
+               <span>Highlights</span>
+            </h2>
+            <div class="row justify-content-center" style="margin-top: 20px;">
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <div class="highlight-card h-100"
+                     style="background-color: #3b82f61a; border: 2px solid #3b82f61a; border-radius: 10px; padding: 32px; position: relative; overflow: hidden;">
+                     <div class="card-icon d-flex align-items-center justify-content-center"
+                        style="width: 60px; height: 60px; border-radius: 10px; margin-bottom: 24px; background-color: #3B82F6;">
+                        <span style="font-size: 1.8rem; color: white;"><i class="fa fa-tachometer"></i></span>
+                     </div>
+                     <h3 class="card-title"
+                        style="font-size: 20px; font-weight: 600; color: black; margin-bottom: 12px; letter-spacing: -0.025em;">
+                        Dashboard
+                     </h3>
+                     <p class="card-description"
+                        style="font-size: 16px; color: #64748b; margin-bottom: 0; line-height: 1.6;">Track pending leaves, expense approvals, and employee attendance from a single dashboard.</p>
+                  </div>
+               </div>
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <div class="highlight-card h-100"
+                     style="background-color: #3b82f61a; border: 2px solid #3b82f61a; border-radius: 10px; padding: 32px; position: relative; overflow: hidden;">
+                     <div class="card-icon d-flex align-items-center justify-content-center"
+                        style="width: 60px; height: 60px; border-radius: 10px; margin-bottom: 24px; background-color: #3B82F6;">
+                        <span style="font-size: 1.8rem; color: white;"><i class="fa fa-clock-o"></i></span>
+                     </div>
+                     <h3 class="card-title"
+                        style="font-size: 20px; font-weight: 600; color: black; margin-bottom: 12px; letter-spacing: -0.025em;">
+                        Attendance Management
+                     </h3>
+                     <p class="card-description"
+                        style="font-size: 16px; color: #64748b; margin-bottom: 0; line-height: 1.6;">Check in/out, view attendance history, and track working hours in real time.</p>
+                  </div>
+               </div>
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <div class="highlight-card h-100"
+                     style="background-color: #3b82f61a; border: 2px solid #3b82f61a; border-radius: 10px; padding: 32px; position: relative; overflow: hidden;">
+                     <div class="card-icon d-flex align-items-center justify-content-center"
+                        style="width: 60px; height: 60px; border-radius: 10px; margin-bottom: 24px; background-color: #3B82F6;">
+                        <span style="font-size: 1.8rem; color: white;"><i class="fa fa-calendar"></i></span>
+                     </div>
+                     <h3 class="card-title"
+                        style="font-size: 20px; font-weight: 600; color: black; margin-bottom: 12px; letter-spacing: -0.025em;">
+                        Leave Management
+                     </h3>
+                     <p class="card-description"
+                        style="font-size: 16px; color: #64748b; margin-bottom: 0; line-height: 1.6;">Manage leave requests with filtering, status tracking, and quick updates.</p>
+                  </div>
+               </div>
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <div class="highlight-card h-100"
+                     style="background-color: #3b82f61a; border: 2px solid #3b82f61a; border-radius: 10px; padding: 32px; position: relative; overflow: hidden;">
+                     <div class="card-icon d-flex align-items-center justify-content-center"
+                        style="width: 60px; height: 60px; border-radius: 10px; margin-bottom: 24px; background-color: #3B82F6;">
+                        <span style="font-size: 1.8rem; color: white;"><i class="fa fa-file-text-o"></i></span>
+                     </div>
+                     <h3 class="card-title"
+                        style="font-size: 20px; font-weight: 600; color: black; margin-bottom: 12px; letter-spacing: -0.025em;">
+                        Expense Management
+                     </h3>
+                     <p class="card-description"
+                        style="font-size: 16px; color: #64748b; margin-bottom: 0; line-height: 1.6;">Create, update, and track expenses directly from your mobile device.</p>
+                  </div>
+               </div>
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <div class="highlight-card h-100"
+                     style="background-color: #3b82f61a; border: 2px solid #3b82f61a; border-radius: 10px; padding: 32px; position: relative; overflow: hidden;">
+                     <div class="card-icon d-flex align-items-center justify-content-center"
+                        style="width: 60px; height: 60px; border-radius: 10px; margin-bottom: 24px; background-color: #3B82F6;">
+                        <span style="font-size: 1.8rem; color: white;"><i class="fa fa-shield"></i></span>
+                     </div>
+                     <h3 class="card-title"
+                        style="font-size: 20px; font-weight: 600; color: black; margin-bottom: 12px; letter-spacing: -0.025em;">
+                        Secure Authentication
+                     </h3>
+                     <p class="card-description"
+                        style="font-size: 16px; color: #64748b; margin-bottom: 0; line-height: 1.6;">Odoo user login with secure API integration for safe and reliable access.</p>
+                  </div>
+               </div>
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <div class="highlight-card h-100"
+                     style="background-color: #3b82f61a; border: 2px solid #3b82f61a; border-radius: 10px; padding: 32px; position: relative; overflow: hidden;">
+                     <div class="card-icon d-flex align-items-center justify-content-center"
+                        style="width: 60px; height: 60px; border-radius: 10px; margin-bottom: 24px; background-color: #2563EB;">
+                        <span style="font-size: 1.8rem; color: white;"><i class="fa fa-mobile"></i></span>
+                     </div>
+                     <h3 class="card-title"
+                        style="font-size: 20px; font-weight: 600; color: black; margin-bottom: 12px; letter-spacing: -0.025em;">
+                        Mobile First Experience
+                     </h3>
+                     <p class="card-description"
+                        style="font-size: 16px; color: #64748b; margin-bottom: 0; line-height: 1.6;">Fully responsive mobile HR app with fast performance, seamless Odoo integration.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Before vs After Table -->
+      <div class="container-fluid cmpad py-4">
+         <div style="background-color: white; padding: 32px; border-radius: 10px; border: 2px solid #e9ecef;">
+            <h2 class="mainhead text-center" style="font-size: 1.8rem; font-weight: 700; color: black; margin-bottom: 24px;">
+               <i class="fa fa-bar-chart" style="color: #3B82F6; margin-right: 8px;"></i> Standard Odoo vs <span>EVO HR Mobile App</span>
+            </h2>
+            <div class="table-responsive">
+               <table class="table table-bordered align-middle" style="margin: 0; font-size: 1rem; border-color: #e2e8f0;">
+                  <thead>
+                     <tr style="background-color: #3B82F6; color: white;">
+                        <th style="padding: 16px 24px; font-weight: 700; width: 50%;">Standard Odoo</th>
+                        <th style="padding: 16px 24px; font-weight: 700; width: 50%;">EVO HR Mobile App</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td style="padding: 16px 24px; color: #475569;">Limited mobile access for HR operations.</td>
+                        <td style="padding: 16px 24px; color: #475569; font-weight: 600;">Full HR system access from mobile anytime, anywhere.</td>
+                     </tr>
+                     <tr class="table-light">
+                        <td style="padding: 16px 24px; color: #475569;">Manual attendance tracking with minimal real-time sync.</td>
+                        <td style="padding: 16px 24px; color: #475569; font-weight: 600;">Real-time attendance check-in/out with live synchronization.</td>
+                     </tr>
+                     <tr>
+                        <td style="padding: 16px 24px; color: #475569;">Leave and expense approvals only via web interface.</td>
+                        <td style="padding: 16px 24px; color: #475569; font-weight: 600;">Instant leave & expense approvals on mobile app.</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <!-- TABS: Screenshots / Features / FAQ -->
+      <div class="container-fluid cmpad py-2 py-md-5">
+         <div class="tabs-design1">
+            <ul class="nav nav-pills justify-content-start justify-content-md-center pb-4" style="flex-flow: nowrap; overflow: hidden; overflow-x: auto;" id="pills1" role="tablist">
+               <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="screenshot-tab" data-toggle="tab" data-bs-toggle="tab" href="#screenshot" data-bs-target="#screenshot" type="button" role="tab" style="width: max-content; border-radius: 50px; margin: 0 5px; padding: 12px 24px; font-weight: 500; border: 2px solid #e9ecef; position: relative;">
+                  Screenshot
+                  </a>
+               </li>
+               <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="features-tab" data-toggle="tab" data-bs-toggle="tab" href="#features" data-bs-target="#features" type="button" role="tab" style="width: max-content; border-radius: 50px; margin: 0 5px; padding: 12px 24px; font-weight: 500; border: 2px solid #e9ecef; position: relative;">
+                  Features
+                  </a>
+               </li>
+               <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="faq-tab" data-toggle="tab" data-bs-toggle="tab" href="#faq" data-bs-target="#faq" type="button" role="tab" style="width: max-content; border-radius: 50px; margin: 0 5px; padding: 12px 24px; font-weight: 500; border: 2px solid #e9ecef; position: relative;">
+                  Frequent Questions
+                  </a>
+               </li>
+            </ul>
+            <div class="tab-content bg-white rounded-4" style="border: 2px solid #e9ecef; border-radius: 10px;" id="pills1Content">
+               <!-- SCREENSHOTS TAB -->
+               <div class="tab-pane fade show active" id="screenshot" role="tabpanel">
+                  <div class="p-3 py-md-5">
+                     <!-- ✅ SCREEN 1 login -->
+                     <div style="padding:0 20px 28px; border-bottom:2px solid #e9ecef;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <td style="width:230px; min-width:230px; vertical-align:top; padding-right:28px;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/1_login.jpeg" alt="Secure Login" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                              <td style="vertical-align:top;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             01
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Authenticate
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Authenticate with Odoo User Account
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    Provide employees with a professional sign-in experience that feels modern, clean, and optimized for productivity.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Clean login form with email/username input
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Secure password field with eye toggle
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Professional color scheme for trust and security
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 1 END -->
+                     <!-- ✅ SCREEN 2 -->
+                     <div style="padding:20px 20px 28px; border-bottom:2px solid #e9ecef;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <!-- Content Left -->
+                              <td style="vertical-align:top; padding-right:28px;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             02
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Dashboard
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Smart Dashboard
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    A beautifully designed dashboard that gives employees quick access to important HR activities and daily operations.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Module cards with icons and labels (Attendance, Leave)
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Quick stats summary showing pending items
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Responsive grid layout for easy finger navigation
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                              <!-- Phone Right -->
+                              <td style="width:230px; min-width:230px; vertical-align:top;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/2_dashboard.jpeg" alt="Smart Dashboard" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 2 END -->
+                     <!-- ✅ SCREEN 3 -->
+                     <div style="padding:20px 20px 28px; border-bottom:2px solid #e9ecef;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <!-- Phone Left -->
+                              <td style="width:230px; min-width:230px; vertical-align:top; padding-right:28px;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/3_sidemenu.jpeg" alt="Navigation Menu" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                              <!-- Content Right -->
+                              <td style="vertical-align:top;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             03
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Navigation Menu
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Smooth Side Navigation Access
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    Access HR modules quickly through a well-organized side menu designed for smooth and efficient mobile navigation.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Organized menu sections for faster navigation
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Quick access to Attendance, Leave, Expenses, and more
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Accessible from any screen with a single tap
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 3 END -->
+                     <!-- ✅ SCREEN 4 -->
+                     <div style="padding:20px 20px 28px; border-bottom:2px solid #e9ecef;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <!-- Content Left -->
+                              <td style="vertical-align:top; padding-right:28px;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             04
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Attendance
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Smart Attendance Tracking
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    Track employee attendance, check-in/check-out activities, and attendance history directly from the mobile application.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Real-time attendance status with check-in details
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Attendance history with detailed daily records
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      One-tap attendance actions for daily operations
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                              <!-- Phone Right -->
+                              <td style="width:230px; min-width:230px; vertical-align:top;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/4_attendance.jpeg" alt="Attendance Management" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 4 END -->
+                     <!-- ✅ SCREEN 5 -->
+                     <div style="padding:20px 20px 28px; border-bottom:2px solid #e9ecef;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <!-- Phone Left -->
+                              <td style="width:230px; min-width:230px; vertical-align:top; padding-right:28px;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/5_leave.jpeg" alt="Leave Management" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                              <!-- Content Right -->
+                              <td style="vertical-align:top;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             05
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Leave
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Employee Leave Requests
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    Submit, track, and manage employee leave requests directly from the mobile application with real-time status updates.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Quick leave request creation from mobile
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      View leave requests with approval status tracking
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Color-coded indicators for Pending, Approved, and Rejected requests
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 5 END -->
+                     <!-- ✅ SCREEN 6 -->
+                     <div style="padding:20px 20px 28px; border-bottom:2px solid #e9ecef;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <!-- Content Left -->
+                              <td style="vertical-align:top; padding-right:28px;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             06
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Leave Filters
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Smart Leave Search Options
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    Find and organize leave records quickly using powerful search and filtering options designed for mobile users.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Filter leave records by type, status, and date range
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Instant search results for faster record access
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Easily narrow down leave records with advanced filters
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                              <!-- Phone Right -->
+                              <td style="width:230px; min-width:230px; vertical-align:top;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/6_leave_filter.jpeg" alt="Leave Filters" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 6 END -->
+                     <!-- ✅ SCREEN 7 -->
+                     <div style="padding:20px 20px 28px; border-bottom:2px solid #e9ecef;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <!-- Phone Left -->
+                              <td style="width:230px; min-width:230px; vertical-align:top; padding-right:28px;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/7_create_leave.jpeg" alt="Create Leave" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                              <!-- Content Right -->
+                              <td style="vertical-align:top;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             07
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Leave
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Quick Leave Application Form
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    Submit leave requests quickly using a simple and user-friendly mobile form designed for efficient HR processes.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Easy leave application form with date selection
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Notes and reason fields for leave details
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      One-tap submission with confirmation workflow
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 7 END -->
+                     <!-- ✅ SCREEN 8 -->
+                     <div style="padding:20px 20px 28px; border-bottom:2px solid #e9ecef;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <!-- Content Left -->
+                              <td style="vertical-align:top; padding-right:28px;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             08
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Expense
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Employee Expense Tracking
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    Track submitted expenses, reimbursement requests, and approval progress directly from the mobile application.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      View expense reports with amount details
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Monitor approval and reimbursement status
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Access detailed records and attached receipts
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                              <!-- Phone Right -->
+                              <td style="width:230px; min-width:230px; vertical-align:top;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/8_expense.jpeg" alt="Expense Management" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 8 END -->
+                     <!-- ✅ SCREEN 9 -->
+                     <div style="padding:20px 20px 28px;">
+                        <table style="width:100%; border-collapse:collapse;">
+                           <tr>
+                              <!-- Phone Left -->
+                              <td style="width:230px; min-width:230px; vertical-align:top; padding-right:28px;">
+                                 <div style="background-color:#111827; border-radius:28px; padding:10px;">
+                                    <img src="screenshots/mobile_app_screenshot/9_expense_create.jpeg" alt="Create Expense" style="width:100%; display:block; border-radius:20px;"/>
+                                 </div>
+                              </td>
+                              <!-- Content Right -->
+                              <td style="vertical-align:top;">
+                                 <!-- Step Badge -->
+                                 <table style="border-collapse:collapse; width:100%; margin-bottom:14px;">
+                                    <tr>
+                                       <td style="width:52px; min-width:52px; padding:0; vertical-align:middle;">
+                                          <div style="width:52px; height:52px; border-radius:15px; background-color:#3B82F6; text-align:center; line-height:52px; color:#ffffff; font-size:20px; font-weight:700; font-family:Arial,sans-serif;">
+                                             09
+                                          </div>
+                                       </td>
+                                       <td style="padding-left:14px; vertical-align:middle;">
+                                          <p style="font-size:18px; font-weight:300; color:#111827; margin:0; font-family:Arial,sans-serif;">
+                                             Expense
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- Title -->
+                                 <p style="font-size:26px; font-weight:700; color:#111827; margin:0 0 10px 0; font-family:Arial,sans-serif; line-height:1.2;">
+                                    Fast Expense Submission
+                                 </p>
+                                 <!-- Subtitle -->
+                                 <p style="font-size:15px; color:#6b7280; margin:0 0 16px 0; line-height:1.7; font-family:Arial,sans-serif;">
+                                    Create and submit expense records quickly using a streamlined mobile form integrated with Odoo expenses.
+                                 </p>
+                                 <!-- Feature Rows -->
+                                 <table style="border-collapse:collapse; width:100%;">
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Enter expense details, amount, and product information
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-bottom:10px;">
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Select transaction dates using an integrated date picker
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <div style="border-radius:5px; background-color:#eef4ff; border:1px solid #e0daf5; overflow:hidden;">
+                                             <table style="border-collapse:collapse; width:100%;">
+                                                <tr>
+                                                   <td style="width:48px; padding:13px 0 13px 13px; vertical-align:middle; text-align:center;">
+                                                      <div style="width:24px; height:24px; border-radius:12px; background-color:#3B82F6; text-align:center; line-height:24px; color:#ffffff; font-size:13px; font-weight:700; font-family:Arial,sans-serif; margin:0 auto;">
+                                                         &#10003;
+                                                      </div>
+                                                   </td>
+                                                   <td style="padding:13px 13px 13px 8px; font-size:14px; color:#374151; line-height:1.6; font-family:Arial,sans-serif;">
+                                                      Submit expenses instantly with confirmation feedback
+                                                   </td>
+                                                </tr>
+                                             </table>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                     <!-- ✅ SCREEN 9 END -->
+                  </div>
+               </div>
+               <!-- FEATURES TAB -->
+               <div class="tab-pane fade" id="features" role="tabpanel">
+                  <div class="p-3 py-md-5">
+                     <h2 class="mainhead text-center mb-4" style="font-size: 2rem; font-weight: 700; color: black;">
+                        Our <span>Features</span>
+                     </h2>
+                     <div class="row justify-content-center" style="border-radius: 10px;">
+                        <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                           <div class="feature-item mb-4 d-flex flex-column align-items-center justify-content-center"
+                              style="padding: 25px; background-color: #3b82f60d; border-radius: 10px; text-align: left;">
+                              <div class="feature-number d-flex align-items-center justify-content-center"
+                                 style="width: 45px; height: 45px; background-color: #3b82f633; border-radius: 50%; font-size: 1.2rem; font-weight: 600; color: #3B82F6; margin-bottom: 15px;">
+                                 01
+                              </div>
+                              <h3 class="feature-title"
+                                 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0; color: black; line-height: 1.3;">
+                                 Attendance Management
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                           <div class="feature-item mb-4 d-flex flex-column align-items-center justify-content-center"
+                              style="padding: 25px; background-color: #3b82f60d; border-radius: 10px; text-align: left;">
+                              <div class="feature-number d-flex align-items-center justify-content-center"
+                                 style="width: 45px; height: 45px; background-color: #3b82f633; border-radius: 50%; font-size: 1.2rem; font-weight: 600; color: #3B82F6; margin-bottom: 15px;">
+                                 02
+                              </div>
+                              <h3 class="feature-title"
+                                 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0; color: black; line-height: 1.3;">
+                                 Leave Request & Approval System
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                           <div class="feature-item mb-4 d-flex flex-column align-items-center justify-content-center"
+                              style="padding: 25px; background-color: #3b82f60d; border-radius: 10px; text-align: left;">
+                              <div class="feature-number d-flex align-items-center justify-content-center"
+                                 style="width: 45px; height: 45px; background-color: #3b82f633; border-radius: 50%; font-size: 1.2rem; font-weight: 600; color: #3B82F6; margin-bottom: 15px;">
+                                 03
+                              </div>
+                              <h3 class="feature-title"
+                                 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0; color: black; line-height: 1.3;">
+                                 Expense Management System
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                           <div class="feature-item mb-4 d-flex flex-column align-items-center justify-content-center"
+                              style="padding: 25px; background-color: #3b82f60d; border-radius: 10px; text-align: left;">
+                              <div class="feature-number d-flex align-items-center justify-content-center"
+                                 style="width: 45px; height: 45px; background-color: #3b82f633; border-radius: 50%; font-size: 1.2rem; font-weight: 600; color: #3B82F6; margin-bottom: 15px;">
+                                 04
+                              </div>
+                              <h3 class="feature-title"
+                                 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0; color: black; line-height: 1.3;">
+                                 Employee Self Service Portal
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                           <div class="feature-item mb-4 d-flex flex-column align-items-center justify-content-center"
+                              style="padding: 25px; background-color: #3b82f60d; border-radius: 10px; text-align: left;">
+                              <div class="feature-number d-flex align-items-center justify-content-center"
+                                 style="width: 45px; height: 45px; background-color: #3b82f633; border-radius: 50%; font-size: 1.2rem; font-weight: 600; color: #3B82F6; margin-bottom: 15px;">
+                                 05
+                              </div>
+                              <h3 class="feature-title"
+                                 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0; color: black; line-height: 1.3;">
+                                 Real-Time HR Dashboard
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                           <div class="feature-item mb-4 d-flex flex-column align-items-center justify-content-center"
+                              style="padding: 25px; background-color: #3b82f60d; border-radius: 10px; text-align: left;">
+                              <div class="feature-number d-flex align-items-center justify-content-center"
+                                 style="width: 45px; height: 45px; background-color: #3b82f633; border-radius: 50%; font-size: 1.2rem; font-weight: 600; color: #3B82F6; margin-bottom: 15px;">
+                                 06
+                              </div>
+                              <h3 class="feature-title"
+                                 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0; color: black; line-height: 1.3;">
+                                 Secure Odoo Authentication
+                              </h3>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- FAQ TAB -->
+               <div class="tab-pane fade" id="faq" role="tabpanel">
+                  <div class="p-3 py-md-5">
+                     <h2 class="mainhead text-center mb-4" style="font-size: 2rem; font-weight: 700; color: black;">
+                        Frequent <span>Questions</span>
+                     </h2>
+                     <div class="accordion" id="accordionFlushExample">
+                        <details class="accordion-item"
+                           style="margin-bottom: 1rem; overflow: hidden; background-color: white; border: 2px solid #e2e8f0 !important; border-radius: 10px !important; display: block;">
+                           <summary class="accordion-button collapsed"
+                              style="box-shadow: unset; border: none !important; padding: 1.5rem 2rem !important; font-weight: 600 !important; font-size: 1.1rem; color: #3B82F6 !important; background-color: #eff6ff !important; list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none;">
+                              <span>Does the app support real-time HR synchronization?</span>
+                              <span class="accordion-icon"
+                                 style="transition: transform 0.2s; font-size: 0.8rem; font-family: monospace;">&#9660;</span>
+                           </summary>
+                           <div
+                              style="border-top: 1px solid #e2e8f0; background-color: rgba(59,130,246,0.02); line-height: 1.6; font-size: 1rem; padding: 2rem !important;">
+                              <p style="margin-bottom: 0;">Yes, all HR data including attendance, leaves, and expenses are synchronized in real time with your Odoo backend system.</p>
+                           </div>
+                        </details>
+                        <details class="accordion-item"
+                           style="margin-bottom: 1rem; overflow: hidden; background-color: white; border: 2px solid #e2e8f0 !important; border-radius: 10px !important; display: block;">
+                           <summary class="accordion-button collapsed"
+                              style="box-shadow: unset; border: none !important; padding: 1.5rem 2rem !important; font-weight: 600 !important; font-size: 1.1rem; color: #3B82F6 !important; background-color: #eff6ff !important; list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none;">
+                              <span>Need customization? Who to contact?</span>
+                              <span class="accordion-icon"
+                                 style="transition: transform 0.2s; font-size: 0.8rem; font-family: monospace;">&#9660;</span>
+                           </summary>
+                           <div
+                              style="border-top: 1px solid #e2e8f0; background-color: rgba(59,130,246,0.02); line-height: 1.6; font-size: 1rem; padding: 2rem !important;">
+                              <p style="margin-bottom: 0;">Please contact us on Google Chat email: <a href="mailto:evozard@gmail.com" style="color: #3B82F6;">evozard@gmail.com</a></p>
+                           </div>
+                        </details>
+                        <details class="accordion-item"
+                           style="margin-bottom: 0; overflow: hidden; background-color: white; border: 2px solid #e2e8f0 !important; border-radius: 10px !important; display: block;">
+                           <summary class="accordion-button collapsed"
+                              style="box-shadow: unset; border: none !important; padding: 1.5rem 2rem !important; font-weight: 600 !important; font-size: 1.1rem; color: #3B82F6 !important; background-color: #eff6ff !important; list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none;">
+                              <span>Can employees manage leaves and expenses from mobile?</span>
+                              <span class="accordion-icon"
+                                 style="transition: transform 0.2s; font-size: 0.8rem; font-family: monospace;">&#9660;</span>
+                           </summary>
+                           <div
+                              style="border-top: 1px solid #e2e8f0; background-color: rgba(59,130,246,0.02); line-height: 1.6; font-size: 1rem; padding: 2rem !important;">
+                              <p style="margin-bottom: 0;">Yes, employees can apply for leaves, track status, and submit expenses directly from the mobile app.</p>
+                           </div>
+                        </details>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- OVERVIEW + WHY CHOOSE -->
+      <div class="container-fluid cmpad py-2 py-md-4">
+         <div class="row g-4">
+            <div class="col-md-6">
+               <div class="h-100"
+                  style="background-color: white; padding: 32px; border-radius: 10px; border: 2px solid #e9ecef;">
+                  <h2 class="mainhead"
+                     style="font-size: 1.6rem; font-weight: 700; color: black; margin-bottom: 16px;"><i
+                     class="fa fa-info-circle" style="color: #3B82F6; margin-right: 8px;"></i>
+                     <span>Overview</span>
+                  </h2>
+                  <p style="color: #444; line-height: 1.7;">This module provides a complete mobile-first HR solution by integrating attendance, leave management, expense tracking, and employee self-service features into a single system. It ensures seamless synchronization with Odoo for real-time HR operations and improved workforce management.</p>
+                  <div
+                     style="background-color: #eff6ff; border-left: 5px solid #3B82F6; padding: 18px; margin-top: 20px; border-radius: 4px; color: #333;">
+                     <strong>Best for:</strong> HR managers, employees, team leads, and organizations looking for a mobile-based HR system to manage attendance, leaves, expenses, and approvals efficiently.
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div class="h-100"
+                  style="background-color: #eff6ff; padding: 32px; border-radius: 10px; border: 2px solid #e9ecef;">
+                  <h2 class="mainhead"
+                     style="font-size: 1.6rem; font-weight: 700; color: black; margin-bottom: 16px;"><i
+                     class="fa fa-trophy" style="color: #3B82F6; margin-right: 8px;"></i> Why Use
+                     <span>This Module?</span>
+                  </h2>
+                  <div style="padding: 0; margin: 0;">
+                     <div style="padding: 7px 0; border-bottom: 1px solid #e9ecef; color: #444;">
+                        <span style="margin-right: 8px; color: #3B82F6; font-weight: 700;">&rarr;</span>
+                        Improve employee attendance tracking accuracy
+                     </div>
+                     <div style="padding: 7px 0; border-bottom: 1px solid #e9ecef; color: #444;">
+                        <span style="margin-right: 8px; color: #3B82F6; font-weight: 700;">&rarr;</span>
+                        Faster leave and expense approval workflow
+                     </div>
+                     <div style="padding: 7px 0; border-bottom: 1px solid #e9ecef; color: #444;">
+                        <span style="margin-right: 8px; color: #3B82F6; font-weight: 700;">&rarr;</span>
+                        Improve transparency between employees and HR managers
+                     </div>
+                     <div style="padding: 7px 0; border-bottom: 1px solid #e9ecef; color: #444;">
+                        <span style="margin-right: 8px; color: #3B82F6; font-weight: 700;">&rarr;</span>
+                        Access HR system anytime, anywhere from mobile app
+                     </div>
+                     <div style="padding: 7px 0; border-bottom: 1px solid #e9ecef; color: #444;">
+                        <span style="margin-right: 8px; color: #3B82F6; font-weight: 700;">&rarr;</span>
+                        Easy self-service for employees (profile, leaves, expenses)
+                     </div>
+                     <div style="padding: 7px 0; border-bottom: 1px solid #e9ecef; color: #444;">
+                        <span style="margin-right: 8px; color: #3B82F6; font-weight: 700;">&rarr;</span>
+                        Real-time synchronization with Odoo backend
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- SUITABLE FOR -->
+      <div class="container-fluid cmpad py-2 py-md-4">
+         <div style="background-color: #eff6ff; padding: 32px; border-radius: 10px; border: 2px solid #e9ecef;">
+            <h2 class="mainhead text-center"
+               style="font-size: 1.8rem; font-weight: 700; color: black; margin-bottom: 20px;"><i class="fa fa-briefcase" style="color: #3B82F6; margin-right: 8px;"></i> This Application is Suitable <span>For</span></h2>
+            <div class="row g-3 justify-content-center">
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                  <div
+                     style="background-color: white; border-left: 4px solid #3B82F6; border-radius: 6px; padding: 16px 18px; height: 100%;">
+                     <strong style="display: block; color: #1e40af; margin-bottom: 4px;">HR Management Teams</strong>
+                     <span style="font-size: 0.93em; color: #333;">Manage attendance, leaves, expenses, and employee records efficiently from a single mobile platform with real-time Odoo sync.</span>
+                  </div>
+               </div>
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                  <div
+                     style="background-color: white; border-left: 4px solid #3B82F6; border-radius: 6px; padding: 16px 18px; height: 100%;">
+                     <strong style="display: block; color: #1e40af; margin-bottom: 4px;">Employees (Self Service)</strong>
+                     <span style="font-size: 0.93em; color: #333;">Employees can easily apply leaves, check attendance history, submit expenses, and access HR information anytime from mobile.</span>
+                  </div>
+               </div>
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 320px;">
+                  <div
+                     style="background-color: white; border-left: 4px solid #3B82F6; border-radius: 6px; padding: 16px 18px; height: 100%;">
+                     <strong style="display: block; color: #1e40af; margin-bottom: 4px;">Managers & Team Leads</strong>
+                     <span style="font-size: 0.93em; color: #333;">Review and approve leave requests, expense reports, and monitor team attendance with full visibility and control.</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- HOW IT WORKS FLOW -->
+      <div class="container-fluid cmpad py-2 py-md-4">
+         <div style="background-color: white; padding: 32px; border-radius: 10px; border: 2px solid #e9ecef;">
+            <h2 class="mainhead text-center"
+               style="font-size: 1.8rem; font-weight: 700; color: black; margin-bottom: 10px;"><i class="fa fa-cogs" style="color: #3B82F6; margin-right: 8px;"></i> How it Works - <span>Visual Workflow (Mobile App)</span>
+            </h2>
+            <p style="color: #444; text-align: center; margin-bottom: 24px;">Quick setup and seamless HR operations from your mobile device.</p>
+            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-4">
+               <div
+                  style="background-color: #eff6ff; border: 2px solid #3B82F6; border-radius: 8px; padding: 12px 18px; text-align: center; font-weight: 600; font-size: 0.92em; color: #1e40af; min-width: 120px;">
+                  1. Login
+               </div>
+               <span style="font-size: 1.4em; color: #3B82F6;">&rarr;</span>
+               <div
+                  style="background-color: #eff6ff; border: 2px solid #3B82F6; border-radius: 8px; padding: 12px 18px; text-align: center; font-weight: 600; font-size: 0.92em; color: #1e40af; min-width: 120px;">
+                  2. Dashboard
+               </div>
+               <span style="font-size: 1.4em; color: #3B82F6;">&rarr;</span>
+               <div
+                  style="background-color: #eff6ff; border: 2px solid #3B82F6; border-radius: 8px; padding: 12px 18px; text-align: center; font-weight: 600; font-size: 0.92em; color: #1e40af; min-width: 120px;">
+                  3. Manage HR Activities
+               </div>
+               <span style="font-size: 1.4em; color: #3B82F6;">&rarr;</span>
+               <div
+                  style="background-color: #eff6ff; border: 2px solid #3B82F6; border-radius: 8px; padding: 12px 18px; text-align: center; font-weight: 600; font-size: 0.92em; color: #1e40af; min-width: 120px;">
+                  4. Sync with Odoo
+               </div>
+            </div>
+            <div class="row g-4 mt-2">
+               <div class="col-md-6">
+                  <h3 style="color: #333; font-weight: 600; font-size: 1.1rem; margin-bottom: 12px;">Initial Setup:</h3>
+                  <ol style="padding-left: 20px; margin: 10px 0; color: #444; line-height: 1.8;">
+                     <li style="padding: 2px 0;">Install Mobile App on your device.</li>
+                     <li style="padding: 2px 0;">Enter Username and Password.</li>
+                     <li style="padding: 2px 0;">Click Login to connect with Odoo.</li>
+                  </ol>
+               </div>
+               <div class="col-md-6">
+                  <h3 style="color: #333; font-weight: 600; font-size: 1.1rem; margin-bottom: 12px;">HR Operations:</h3>
+                  <ol style="padding-left: 20px; margin: 10px 0; color: #444; line-height: 1.8;">
+                     <li style="padding: 2px 0;">Access the HR Dashboard and Side Menu.</li>
+                     <li style="padding: 2px 0;">View attendance records and perform Check-In / Check-Out.</li>
+                     <li style="padding: 2px 0;">View, create, and update leave requests.</li>
+                     <li style="padding: 2px 0;">View, create, and update expense reports.</li>
+                     <li style="padding: 2px 0;">All changes synchronize instantly with Odoo.</li>
+                  </ol>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- TECHNICAL SPECS -->
+      <div class="container-fluid cmpad py-2 py-md-4">
+         <div class="row g-4">
+            <div class="col-md-6">
+               <div class="h-100"
+                  style="background-color: #eff6ff; padding: 32px; border-radius: 10px; border: 2px solid #e9ecef;">
+                  <h2 class="mainhead"
+                     style="font-size: 1.6rem; font-weight: 700; color: black; margin-bottom: 16px;"><i class="fa fa-code" style="color: #3B82F6; margin-right: 8px;"></i> Technical
+                     <span>Specifications</span>
+                  </h2>
+                  <div style="padding: 0; margin: 0; line-height: 1.8;">
+                     <div style="padding: 8px 0; border-bottom: 1px solid #e9ecef; color: #444;"><strong>Odoo Version:</strong> 18.0</div>
+                     <div style="padding: 8px 0; border-bottom: 1px solid #e9ecef; color: #444;"><strong>Edition:</strong> Community &amp; Enterprise</div>
+                     <div style="padding: 8px 0; border-bottom: 1px solid #e9ecef; color: #444;"><strong>Android Compatibility:</strong> Android 5+, tested on Android 16</div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div class="h-100"
+                  style="background-color: #3B82F6 !important; color: white; padding: 32px; border-radius: 10px; border: 2px solid #3B82F6;">
+                  <h2 class="mainhead"
+                     style="font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 16px;"><i class="fa fa-shield" style="color: white; margin-right: 8px;"></i> Privacy &amp;
+                     <span>Security</span>
+                  </h2>
+                  <div style="padding: 0; margin: 0; line-height: 2.2;">
+                     <div style="padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.2); color: white;"><i class="fa fa-check-circle" style="color: white; margin-right: 8px;"></i> Secure storage of employee and HR data.</div>
+                     <div style="padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.2); color: white;"><i class="fa fa-check-circle" style="color: white; margin-right: 8px;"></i> No third-party tracking or data sharing.</div>
+                     <div style="padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.2); color: white;"><i class="fa fa-check-circle" style="color: white; margin-right: 8px;"></i> Secure authentication with Odoo integration.</div>
+                     <div style="padding: 6px 0; color: white;"><i class="fa fa-check-circle" style="color: white; margin-right: 8px;"></i> Complete control over HR records and activities.</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- GET MOBILE APK -->
+      <div class="container-fluid cmpad py-2 py-md-4">
+         <div style="background-color: #eff6ff; border: 1px solid #bbf7d0; border-radius: 10px; padding: 32px; text-align: center;">
+            <div style="font-size: 3rem; color: #1e40af; margin-bottom: 15px;"><i class="fa fa-android"></i></div>
+            <h3 style="color: #166534; font-weight: 700; margin-bottom: 10px;">Get Android Mobile Application (APK File)</h3>
+            <p style="color: #15803d; max-width: 650px; margin: 0 auto 20px;">To receive the Mobile Application APK for seamless HR management on your mobile device, follow the simple steps below.</p>
+            <div style="background-color: white; border-radius: 8px; padding: 20px; max-width: 500px; margin: 0 auto; text-align: left; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); line-height: 1.8;">
+               <div style="margin-bottom: 10px;"><strong style="color: #166534; margin-right: 8px;">1.</strong> Contact us via email at <a href="mailto:evozard@gmail.com" style="color: #1e40af; font-weight: 600; text-decoration: underline;">evozard@gmail.com</a></div>
+               <div style="margin-bottom: 10px;"><strong style="color: #166534; margin-right: 8px;">2.</strong> Attach a copy of your purchase <strong>invoice</strong>.</div>
+               <div><strong style="color: #166534; margin-right: 8px;">3.</strong> We will send you the APK file within <strong>3 to 5 business days</strong>.</div>
+            </div>
+         </div>
+      </div>
+      <!-- OTHER APPS -->
+      <div class="container-fluid cmpad py-2 py-md-5">
+         <div class="highlights-section">
+            <h2 class="mainhead text-center" style="font-size: 2rem; font-weight: 700; color: black;">Other
+               <span>Apps</span>
+            </h2>
+            <div class="row justify-content-center" style="margin-top: 30px;">
+               <!-- APP 1 -->
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <a href="https://apps.odoo.com/apps/modules/15.0/evo_crm_api" target="_blank"
+                     style="text-decoration: none; color: inherit;">
+                     <div class="highlight-card h-100"
+                        style="background-color: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); transition: transform 0.2s, box-shadow 0.2s;">
+                        <!-- Banner -->
+                        <img src="https://apps.odoocdn.com/apps/assets/15.0/evo_crm_api/banner.png"
+                           style="width: 100%; height: auto; border-bottom: 1px solid #e2e8f0; display: block;"
+                           alt="CRM and Order Tracking via Mobile" />
+                        <!-- Card Body -->
+                        <div style="padding: 15px;">
+                           <h4
+                              style="font-size: 1rem; font-weight: 600; color: #1a202c; margin: 0 0 10px 0; line-height: 1.4; height: 2.8em; overflow: hidden;">
+                              CRM and Order Tracking via Mobile
+                           </h4>
+                           <div style="margin-top: 10px; clear: both;">
+                              <span
+                                 style="font-size: 0.85rem; color: #718096; font-weight: 500; float: left;">Evozard</span>
+                              <span style="font-size: 1rem; font-weight: 700; color: #2d3748; float: right;">$
+                              500.00</span>
+                              <div style="clear: both;"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <!-- APP 2 -->
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <a href="https://apps.odoo.com/apps/modules/18.0/evo_call_recording_transcript" target="_blank"
+                     style="text-decoration: none; color: inherit;">
+                     <div class="highlight-card h-100"
+                        style="background-color: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); transition: transform 0.2s, box-shadow 0.2s;">
+                        <!-- Banner -->
+                        <img src="https://apps.odoocdn.com/apps/assets/18.0/evo_call_recording_transcript/banner.png"
+                           style="width: 100%; height: auto; border-bottom: 1px solid #e2e8f0; display: block;"
+                           alt="AI Call Recording & Auto Transcript for CRM" />
+                        <!-- Card Body -->
+                        <div style="padding: 15px;">
+                           <h4
+                              style="font-size: 1rem; font-weight: 600; color: #1a202c; margin: 0 0 10px 0; line-height: 1.4; height: 2.8em; overflow: hidden;">
+                              AI Call Recording & Auto Transcript for CRM
+                           </h4>
+                           <div style="margin-top: 10px; clear: both;">
+                              <span
+                                 style="font-size: 0.85rem; color: #718096; font-weight: 500; float: left;">Evozard</span>
+                              <span style="font-size: 1rem; font-weight: 700; color: #2d3748; float: right;">$
+                              139.00</span>
+                              <div style="clear: both;"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+               <!-- APP 3 -->
+               <div class="col-12 col-sm-6 col-md-4 mb-4" style="max-width: 380px;">
+                  <a href="https://apps.odoo.com/apps/modules/18.0/employee_information_masking" target="_blank"
+                     style="text-decoration: none; color: inherit;">
+                     <div class="highlight-card h-100"
+                        style="background-color: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); transition: transform 0.2s, box-shadow 0.2s;">
+                        <!-- Banner -->
+                        <img src="https://apps.odoocdn.com/apps/assets/16.0/employee_information_masking/banner.png"
+                           style="width: 100%; height: auto; border-bottom: 1px solid #e2e8f0; display: block;"
+                           alt="Employee Private Information Masking with PIN" />
+                        <!-- Card Body -->
+                        <div style="padding: 15px;">
+                           <h4
+                              style="font-size: 1rem; font-weight: 600; color: #1a202c; margin: 0 0 10px 0; line-height: 1.4; height: 2.8em; overflow: hidden;">
+                              Employee Private Information Masking with PIN
+                           </h4>
+                           <div style="margin-top: 10px; clear: both;">
+                              <span
+                                 style="font-size: 0.85rem; color: #718096; font-weight: 500; float: left;">Evozard</span>
+                              <span style="font-size: 1rem; font-weight: 700; color: #2d3748; float: right;">$
+                              25</span>
+                              <div style="clear: both;"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- CONTACT US -->
+      <div class="container-fluid cmpad py-2 py-md-5">
+         <div class="highlights-section">
+            <h2 class="mainhead text-center"
+               style="font-size: 2rem; font-weight: 700; color: black; margin-bottom: 8px;">Contact <span>Us</span>
+            </h2>
+            <hr
+               style="border: 0; height: 1px; background-image: linear-gradient(to right, #ccc, #3B82F6, #ccc); margin-bottom: 24px;">
+            <div class="row justify-content-center" style="margin-top: 24px;">
+               <div class="col-12 col-md-4 mb-4" style="max-width: 380px;">
+                  <a href="tel:+918000168707" style="text-decoration: none;">
+                     <div class="highlight-card text-center"
+                        style="background-color: #3B82F6; border-radius: 10px; padding: 44px 20px; min-height: 120px; box-sizing: border-box; text-align: center;">
+                        <i class="fa fa-phone" style="font-size: 32px; color: #fff; display: inline-block; vertical-align: middle; margin-right: 12px !important;"></i>
+                        <span style="color: #fff; font-size: 16px; font-weight: 600; display: inline-block; vertical-align: middle; font-family: 'Montserrat', sans-serif; white-space: nowrap;">
+                        +91 8000168707, +91 9426376468</span>
+                     </div>
+                  </a>
+               </div>
+               <div class="col-12 col-md-4 mb-4" style="max-width: 380px;">
+                  <a href="mailto:evozard@gmail.com" style="text-decoration: none;">
+                     <div class="highlight-card text-center"
+                        style="background-color: #3B82F6; border-radius: 10px; padding: 44px 20px; min-height: 120px; box-sizing: border-box; text-align: center;">
+                        <i class="fa fa-envelope" style="font-size: 32px; color: #fff; display: inline-block; vertical-align: middle; margin-right: 12px !important;"></i>
+                        <span style="color: #fff; font-size: 16px; font-weight: 600; display: inline-block; vertical-align: middle; font-family: 'Montserrat', sans-serif; white-space: nowrap;">
+                        evozard@gmail.com</span>
+                     </div>
+                  </a>
+               </div>
+               <div class="col-12 col-md-4 mb-4" style="max-width: 380px;">
+                  <a href="https://chat.google.com/" target="_blank" style="text-decoration: none;">
+                     <div class="highlight-card text-center"
+                        style="background-color: #3B82F6; border-radius: 10px; padding: 44px 20px; min-height: 120px; box-sizing: border-box; text-align: center;">
+                        <i class="fa fa-comments" style="font-size: 32px; color: #fff; display: inline-block; vertical-align: middle; margin-right: 12px !important;"></i>
+                        <span style="color: #fff; font-size: 16px; font-weight: 600; display: inline-block; vertical-align: middle; font-family: 'Montserrat', sans-serif; white-space: nowrap;">
+                        Connect on Google Chat</span>
+                     </div>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+      </div>
+      <!-- SUPPORT -->
+      <div class="container-fluid cmpad py-2 py-md-3">
+         <div style="background-color: white; padding: 32px; border-radius: 10px; border: 2px solid #e9ecef;">
+            <h2 class="mainhead" style="font-size: 1.6rem; font-weight: 700; color: black; margin-bottom: 12px;"><i class="fa fa-headphones" style="color: #3B82F6; margin-right: 8px;"></i>
+               Support &amp; <span>Contact</span>
+            </h2>
+            <p style="color: #444;">Need help? Our team is ready to assist you.</p>
+            <ul style="padding-left: 20px; margin: 10px 0; color: #444;">
+               <li style="padding: 4px 0;"><strong>Website:</strong> <a rel="nofollow" target="_blank"
+                  href="https://www.evozard.com" style="color: #3B82F6;">https://www.evozard.com</a></li>
+               <li style="padding: 4px 0;"><strong>Email:</strong> <a href="mailto:evozard@gmail.com"
+                  style="color: #3B82F6;">evozard@gmail.com</a></li>
+            </ul>
+         </div>
+      </div>
+      <!-- FOOTER -->
+      <div class="container-fluid cmpad py-4 mt-3 text-center" style="color: #6c757d; font-size: 0.9em;">
+         <div class="d-flex flex-wrap gap-4 justify-content-center mb-3">
+            <!-- <a rel="nofollow" target="_blank" href="https://www.evozard.com"
+               style="color: #3B82F6; text-decoration: none;">Website</a> -->
+            <a href="https://www.evozard.com" style="color: #3B82F6; text-decoration: none;">Website</a>
+            <a href="mailto:support@evozard.com" style="color: #3B82F6; text-decoration: none;">Support</a>
+            <a href="mailto:evozard@gmail.com" style="color: #3B82F6; text-decoration: none;">Request Customization</a>
+         </div>
+         <p style="color: #6c757d; margin: 4px 0;">Compatible: Odoo 18 &bull; Community
+            &amp; Enterprise &bull; Odoo.sh
+         </p>
+         <p style="color: #6c757d; margin: 4px 0;">&copy; 2026 EVOZARD &bull; All Rights Reserved</p>
+         <p style="color: #6c757d; margin: 4px 0;">Evo HR &amp; Smart Human Resource Management for Odoo </p>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+   </body>
+</html>
