@@ -1,0 +1,12 @@
+
+[options]
+admin_passwd = admin
+
+db_host = localhost
+db_port = 5432
+db_user = odoo
+db_password = odoo
+
+addons_path = /opt/odoo17/addons,/opt/odoo17/odoo/addons
+
+http_port = 7070
