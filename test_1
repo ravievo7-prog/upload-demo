@@ -1,0 +1,226 @@
+  List<Map<String, dynamic>> generateNodeRedFlow(
+    Map<String, dynamic> flowJson,
+  ) {
+    final String flowId = "flow_${flowJson['callFlowID']}";
+    final List nodes = flowJson['nodes'];
+    final List connections = flowJson['connections'];
+
+    final Map<int, String> nodeIdMap = {};
+    int debugCounter = 1;
+
+    // 🔹 original id → node-red id
+    for (var node in nodes) {
+      nodeIdMap[node['id']] = "node_${node['id']}";
+    }
+
+    // 🔹 FIND MIN X & Y (NORMALIZATION)
+    int minX = 999999;
+    int minY = 999999;
+    const int padding = 110;
+
+    for (var node in nodes) {
+      final position = node['position'] ?? {};
+      final int x = ((position['dx'] ?? 0).toDouble()).round();
+      final int y = ((position['dy'] ?? 0).toDouble()).round();
+      if (x < minX) minX = x;
+      if (y < minY) minY = y;
+    }
+
+    List<Map<String, dynamic>> nodeRedNodes = [];
+
+    // 🔹 Helper: check if node is connected from http in
+    bool isConnectedFromHttpIn(int nodeId) {
+      for (var c in connections) {
+        if (c['endNodeId'] == nodeId) {
+          final fromId = nodeIdMap[c['startNodeId']];
+          final fromNode =
+              nodeRedNodes.where((n) => n['id'] == fromId).isNotEmpty
+              ? nodeRedNodes.firstWhere((n) => n['id'] == fromId)
+              : null;
+
+          if (fromNode != null && fromNode['type'] == 'http in') {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    // 🔹 CREATE NODES
+    for (var node in nodes) {
+      final position = node['position'] ?? {};
+
+      int x = ((position['dx'] ?? 0).toDouble()).round() - minX + padding;
+      int y = ((position['dy'] ?? 0).toDouble()).round() - minY + padding;
+
+      switch (node['nodeKey']) {
+        // 🌐 WEBHOOK
+        case NodeProperty.nodeKeyWebhook:
+          nodeRedNodes.add({
+            "id": nodeIdMap[node['id']],
+            "type": "http in",
+            "z": flowId,
+            "name": node['label'],
+            "url": "/webhook/${flowJson['callFlowID']}",
+            "method": "${node["data"]["webhookNode"]["operationName"]}",
+            "upload": false,
+            "swaggerDoc": "",
+            "x": x,
+            "y": y,
+            "wires": [[]],
+          });
+          break;
+
+        // 🔄 CHANGE + HTTP REQUEST + DEBUGS
+        case NodeProperty.nodeKeyOdooSalesOrder:
+        case NodeProperty.nodeKeyCRMLead:
+        case NodeProperty.nodeKeyGmailSendEmail:
+        case NodeProperty.nodeKeyOdooSalesOrderLine:
+          if (isConnectedFromHttpIn(node['id'])) {
+            x += 100; // ✅ EXTRA SPACE AFTER HTTP IN
+          }
+
+          final String changeNodeId = nodeIdMap[node['id']]!;
+          final String httpNodeId = "http_${node['id']}";
+          final String changeDebugNodeId = "debug_${debugCounter++}";
+          final String httpDebugNodeId = "debug_http_${debugCounter++}";
+
+          final payload =
+              (node['nodeKey'] == NodeProperty.nodeKeyOdooSalesOrder)
+              ? buildSaleOrderPayloadFromNode(node)
+              : {};
+
+          // 🔹 CHANGE NODE
+          nodeRedNodes.add({
+            "id": changeNodeId,
+            "type": "change",
+            "z": flowId,
+            "name": node['label'],
+            "rules": [
+              {
+                "t": "set",
+                "p": "method",
+                "pt": "msg",
+                "to": getOperationName(node),
+                "tot": "str",
+              },
+              {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "http://34.205.76.75:9069/web/dataset/call_kw",
+                "tot": "str",
+              },
+              {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to":
+                    "{\"Content-Type\":\"application/json\",\"Cookie\":\"session_id=xxxx\"}",
+                "tot": "json",
+              },
+              {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": jsonEncode(payload),
+                "tot": "json",
+              },
+            ],
+            "x": x,
+            "y": y,
+            "wires": [
+              [httpNodeId, changeDebugNodeId],
+            ],
+          });
+
+          // 🔹 CHANGE DEBUG
+          nodeRedNodes.add({
+            "id": changeDebugNodeId,
+            "type": "debug",
+            "z": flowId,
+            "name": "${node['label']} Change Debug",
+            "active": true,
+            "tosidebar": true,
+            "complete": "payload",
+            "targetType": "msg",
+            "x": x + 180,
+            "y": y + 60,
+            "wires": [],
+          });
+
+          // 🔹 HTTP REQUEST
+          nodeRedNodes.add({
+            "id": httpNodeId,
+            "type": "http request",
+            "z": flowId,
+            "name": "${node['label']} Request",
+            "method": "use",
+            "ret": "obj",
+            "url": "",
+            "x": x + 300,
+            "y": y,
+            "wires": [
+              [httpDebugNodeId],
+            ],
+          });
+
+          // 🔹 HTTP DEBUG
+          nodeRedNodes.add({
+            "id": httpDebugNodeId,
+            "type": "debug",
+            "z": flowId,
+            "name": "${node['label']} HTTP Debug",
+            "active": true,
+            "tosidebar": true,
+            "complete": "payload",
+            "targetType": "msg",
+            "x": x + 400,
+            "y": y + 100,
+            "wires": [],
+          });
+          break;
+
+        // ↩ HTTP RESPONSE
+        case NodeProperty.nodeKeyRespondToWebhook:
+          nodeRedNodes.add({
+            "id": nodeIdMap[node['id']],
+            "type": "http response",
+            "z": flowId,
+            "name": node['label'],
+            "statusCode": "200",
+            "x": x,
+            "y": y,
+            "wires": [],
+          });
+          break;
+      }
+    }
+
+    // 🔗 APPLY CONNECTIONS
+    for (var conn in connections) {
+      final fromId = nodeIdMap[conn['startNodeId']]!;
+      final toId = nodeIdMap[conn['endNodeId']]!;
+
+      final fromNode = nodeRedNodes.firstWhere((n) => n['id'] == fromId);
+
+      if (fromNode['type'] == 'change') {
+        final httpNode = nodeRedNodes.firstWhere(
+          (n) => n['id'] == "http_${conn['startNodeId']}",
+        );
+        httpNode['wires'][0].add(toId);
+      } else if (fromNode['wires'].isNotEmpty) {
+        fromNode['wires'][0].add(toId);
+      }
+    }
+
+    // 🔹 FLOW TAB
+    final Map<String, dynamic> flowTab = {
+      "id": flowId,
+      "type": "tab",
+      "label": flowId,
+      "nodes": nodeRedNodes,
+    };
+
+    return [flowTab];
+  }
